@@ -1,0 +1,40 @@
+
+namedtuple Point
+    x
+    y
+
+class SimplePolygon:
+    def __init__(self, name, points[], edges[])
+
+class PointLocator:
+    def __init__(self, polygons[])
+    def query(point)
+
+class Triangle:
+    def __init__(self, polygon = None)
+    def contains(self, point)
+    def copy(self)
+
+class PlanarGraph:
+    def __init__(self)
+    add_point(self, point, edges[])
+    remove_point(self, point)
+    find_low_degree_vertices(self)
+    def copy(self)
+
+class Triangulation:
+    def __init__(self, points[])
+    def remove_points(self, points[])
+    def remove_low_degree_vertices(self)
+    def copy(self)
+
+namedtuple Vertex
+    is_root
+    children[]
+    value
+
+class DAG:
+    def __init__(self)
+    def add_vertex(self, vertex, edges[], is_root=False)
+    def find_leaf_where(self, condition_fun)
+
