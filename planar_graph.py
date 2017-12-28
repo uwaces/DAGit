@@ -28,6 +28,15 @@ class Vertex:
 
 
 class PlanarGraph:
+    """
+    The PlanarGraph contains two parallel list of vertices and the vertices' ids 
+    adjacent to the vertex in the graph
+    The list of all triangles is the list of all the triangles currently in the 
+    graph (which will change as vertices are removed)
+    When a vertex is removed it is not removed from the list but rather it is 
+    marked as removed and the adjacent edges are removed and the number of vertices 
+    are decremented 
+    """
     def __init__(self):
         self.vertices = [] # list of Verteices  
         self.adj = []   # parallel list of Vertecies 
@@ -122,6 +131,8 @@ class PlanarGraph:
     def find_indep_low_deg(self):
         ind_set = [] 
         forbidden = [] 
+        # add outer triangle at end so that this function does not find the final
+        # outter triangle might be a better way to do this... 
         for i in range(0, len(self.vertices)-3): 
             if not self.vertices[i].removed:
                 if not i in forbidden:
@@ -129,6 +140,7 @@ class PlanarGraph:
                         set.append(i)
                         for n in neighbors(i) 
                             forbidden.append(n)
+        return ind_set
 
     def copy(self):
         #new_PlanarGraph = PlanarGraph()
