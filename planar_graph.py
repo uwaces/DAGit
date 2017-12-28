@@ -130,6 +130,7 @@ class PlanarGraph:
                         set.append(i);
                         for n in neighbors(i) 
                             forbidden.append(n)
+
     def copy(self):
         #new_PlanarGraph = PlanarGraph()
         #new_PlanarGraph.adj_list = self.adj_list.copy()
