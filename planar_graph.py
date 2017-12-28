@@ -9,10 +9,10 @@ class Triangle:
 
 class Vertex:
     def __init__(self, x, y):
-        self.id = -1;   
-        self.point = (x, y);  
-        self.triangles = [];
-        self.removed = False;
+        self.id = -1
+        self.point = (x, y)  
+        self.triangles = []
+        self.removed = False
 
     def addTriangle(self, tri):
         if tri not in self.triangles:
@@ -28,7 +28,6 @@ class Vertex:
 
 
 class PlanarGraph:
-
     def __init__(self):
         self.vertices = [] # list of Verteices  
         self.adj = []   # parallel list of Vertecies 
