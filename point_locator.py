@@ -1,9 +1,8 @@
 import functools
 
-class PointLocator:
 
+class PointLocator:
     def __init__(self, polygons):
-        # Get as input a list of polygons
         self.polygons = polygons
         # triangulate each polygon
         trangs = [p.triangluate() for p in polygons]
@@ -25,6 +24,7 @@ class PointLocator:
                 Pc.remove_vertex(v)
             # TODO: retriangulate both efficiently
             # TODO: look for overlaps and add to D
+
 
     def query(point):
         cf = lambda x: x.value.contains(point)
