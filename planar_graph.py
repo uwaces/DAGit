@@ -27,7 +27,7 @@ class Vertex:
         for x in l:
             if x is not tri:
                 l_n.append(x)
-        return l_n
+        self.triangles = l_n
 
 
 class PlanarGraph:
