@@ -270,7 +270,8 @@ def eliminateHoles(data, holeIndices, outerNode, dim):
         end =  holeIndices[i + 1] * dim if i < _len - 1 else len(data)
         _list = linkedList(data, start, end, dim, False)
 
-        if (_list == _list.next):
+        ## HARRISON ADDED if "_list and"
+        if (_list and _list == _list.next):
             _list.steiner = True
 
         queue.append(getLeftmost(_list))
