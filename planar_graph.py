@@ -37,13 +37,13 @@ class PlanarGraph:
 
     def addVertex(self, x, y):
         v = Vertex(x, y)
-        v.id = len(self.vertices);
+        v.id = len(self.vertices)
 
-        self.vertices.append(v);
-        self.adj.append([]);
-        self.numVertices++; 
+        self.vertices.append(v)
+        self.adj.append([])
+        self.numVertices++ 
 
-        return v.id;
+        return v.id
 
     def addDirectedEdge(self, v_id1, v_id2):
         self.adj[v_id1].append(v_id2)
@@ -120,13 +120,13 @@ class PlanarGraph:
         return {old_triangles: old_triangle_ids, polygon : polygon}
 
     def find_indep_low_deg(self):
-        ind_set = []; 
-        forbidden = []; 
+        ind_set = [] 
+        forbidden = [] 
         for i in range(0, len(self.vertices)-3): 
             if not self.vertices[i].removed:
                 if not i in forbidden:
                     if degree(i) <= 8 
-                        set.append(i);
+                        set.append(i)
                         for n in neighbors(i) 
                             forbidden.append(n)
 
