@@ -31,9 +31,9 @@ class DAG:
     def root():
         root = None
         for x in self.adj_list:
-            if x[0]:
-                root = x[1]
-
+            if self.adj_list[x][0]:
+                root = x
+    
         return root
 
     # Take a value to be the new root and a list of DAGs to be the children
