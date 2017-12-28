@@ -34,12 +34,16 @@ input_to_earcut = earcut.flatten([outer_triangle, polygon])
 print("Ear-cut input: " + str(input_to_earcut))
 
 
+
 output_earcut = earcut.earcut(input_to_earcut["vertices"], input_to_earcut["holes"], input_to_earcut["dimensions"])
 print("Earcut Triangles output (3 ids, 3ids....): " + str(output_earcut))
+
 
 print("Find the triangles from inside the polygon")
 p_list = earcut.flatten([polygon, []])
 p_triangles = earcut.earcut(p_list["vertices"], dim=p_list["dimensions"])
 print(p_list)
 print(p_triangles)
+
+
 
