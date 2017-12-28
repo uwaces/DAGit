@@ -1,4 +1,3 @@
-from sets import Set
 import copy
 
 class Triangle:
@@ -53,7 +52,7 @@ class PlanarGraph:
 
         self.vertices.append(v)
         self.adj.append([])
-        self.numVertices++ 
+        self.numVertices += 1 
 
         return v.id
 
@@ -99,7 +98,7 @@ class PlanarGraph:
         triangles = []
         for t_id in self.vertices[point].triangles:
             t = self.all_triangles[t_id]
-            triangles.append([x if is not point for x in t])
+            triangles.append([x for x in t if x is not point])
 
         nxt = triangles[0]
         polygon.append(nxt[0])
@@ -112,7 +111,7 @@ class PlanarGraph:
                 if query in t:
                     nxt = t
             old_query = query
-            query = nxt[0] == query ? nxt[1] : nxt[0]
+            query = nxt[1] if nxt[0] == query else nxt[0]
             polygon.append(query)
 
             triangles_new = []
@@ -138,13 +137,14 @@ class PlanarGraph:
         for i in range(0, len(self.vertices)-3): 
             if not self.vertices[i].removed:
                 if not i in forbidden:
-                    if degree(i) <= 8 
+                    if degree(i) <= 8:
                         set.append(i)
-                        for n in neighbors(i) 
+                        for n in neighbors(i):
                             forbidden.append(n)
         return ind_set
 
     def copy(self):
+        pass
         #new_PlanarGraph = PlanarGraph()
         #new_PlanarGraph.adj_list = self.adj_list.copy()
         ## May cause issues -- not sure how objects in dictionary are copied or 
