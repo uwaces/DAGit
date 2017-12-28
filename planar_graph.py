@@ -7,10 +7,13 @@ class Triangle:
         self.v2 = v2
         self.v3 = v3
 
+# A vertex is a point (x, y) and a list of triangles which the vertex is a vertex of...
+# the id is to be set as unique to the vertex and the removed variable marks weather the 
+# vertex was removed or not.
 class Vertex:
     def __init__(self, x, y):
         self.id = -1
-        self.point = (x, y)  
+        self.point = (x, y)
         self.triangles = []
         self.removed = False
 
@@ -69,7 +72,6 @@ class PlanarGraph:
         if (not p2 in self.adj(p1)) and (not p1 in self.adj(p2)):
             self.addDirectedEdge(p1, p2)
             self.addDirectedEdge(p2, p1)
-
 
     def neighbors(self, point):
         return self.adj[point]
