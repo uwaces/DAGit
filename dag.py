@@ -1,38 +1,63 @@
-class Vertex:
-    def __init__(self, is_root, children, value):
-        self.is_root = is_root
-        self.children = children
-        self.value = value
-
-    def is_root(self):
-        return self.is_root
-
-    def is_leaf(self):
-        return children is []
+#class Vertex:
+#    def __init__(self, is_root, children, value):
+#        self.is_root = is_root
+#        self.children = children
+#        self.value = value
+#
+#    def is_root(self):
+#        return self.is_root
+#
+#    def is_leaf(self):
+#        return children is []
 
 class DAG:
-    def __init__(self, value, children=[], is_root=True):
-        self.root = Vertex(is_root, children, value)
-        
+    def __init__(self, id_elem):
+        self.adj_list = dict()
+        self.addRoot(id_elem)
+    
+    def addRoot(id_elem):
+        self.adj_list[id_elem] = [True, []]
+
+    def addDirectedEdge(id1, id2):
+        if id1 not in self.adj_list:
+            self.adj_list[id1] = [False, [id2]]
+        else:
+            self.adj_list[id1][1].append(id2)
+
+    def children(id_elem):
+        return self.adj_list[id_elem][1]
+
+    def root():
+        root = None
+        for x in self.adj_list:
+            if x[0]:
+                root = x[1]
+
+        return root
+
+    # Take a value to be the new root and a list of DAGs to be the children
+    # returns the new DAG
     def merge(self, value, dag_list):
-        for x in dag_list:
-            x.root.is_root = False
-        root_list = [x.root for x in dag_list]
-        new_DAG = DAG(value, children=root_list)
-        return new_DAG
+        pass
+        # Don't think we need this??
 
     # Use condition_fun to trace to bottom
     def find_leaf_where(self, condition_fun):
-        if not condition_fun(self.root):
-            return None
-
-        cur = self.root
-
-        while not cur.is_leaf():
-            for v in cur.children:
-                if condition_fun(v):
-                    cur = v
-                    break
-        return cur
+        ## We'll see... 
+        pass
+        #if not condition_fun(self.root):
+        #    return None
+        #    
+        #cur = self.root
+        #
+        #while not cur.is_leaf():
+        #    for v in cur.children:
+        #        if condition_fun(v):
+        #            cur = v
+        #            break
+        #return cur
 
         
+
+
+# DAG OF TRIANGLES:

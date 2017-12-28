@@ -5,6 +5,7 @@ class PointLocator:
     def __init__(self, polygons):
         # Assumed to be an array of 2 element arrays
         self.polygons = polygons
+        
 
     def query(point):
         """
