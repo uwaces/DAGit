@@ -10,6 +10,7 @@
 #    def is_leaf(self):
 #        return children is []
 
+# intended to work on triangle id's... 
 class DAG:
     def __init__(self, id_elem):
         self.adj_list = dict()
