@@ -300,7 +300,7 @@ def findHoleBridge(hole, outerNode):
     p = outerNode
     hx = hole.x
     hy = hole.y
-    qx = -math.inf
+    qx = -float("inf")  # HARRISON CHANGED: math.inf
     m = None
 
     # find a segment intersected by a ray from the hole's leftmost point to the left;
@@ -336,7 +336,7 @@ def findHoleBridge(hole, outerNode):
     stop = m
     mx = m.x
     my = m.y
-    tanMin = math.inf
+    tanMin = float("inf") #HARRISON CHANGED: math.inf
     tan = None
 
     p = m.next
