@@ -13,6 +13,9 @@
 # intended to work on triangle id's... 
 class DAG:
     def __init__(self, id_elem):
+        # May consider making 2 parallel arrays and keeping the root as the first
+        # element -- will make some operations faster... for now roots are maintained
+        # in the dictionary
         self.adj_list = dict()
         self.addRoot(id_elem)
     
@@ -33,7 +36,7 @@ class DAG:
         for x in self.adj_list:
             if self.adj_list[x][0]:
                 root = x
-    
+
         return root
 
     # Take a value to be the new root and a list of DAGs to be the children
