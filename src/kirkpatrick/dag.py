@@ -1,23 +1,10 @@
-#class Vertex:
-#    def __init__(self, is_root, children, value):
-#        self.is_root = is_root
-#        self.children = children
-#        self.value = value
-#
-#    def is_root(self):
-#        return self.is_root
-#
-#    def is_leaf(self):
-#        return children is []
-
 # intended to work on triangle id's... 
 class DAG:
-    def __init__(self, id_elem):
+    def __init__(self):
         # May consider making 2 parallel arrays and keeping the root as the first
         # element -- will make some operations faster... for now roots are maintained
         # in the dictionary
         self.adj_list = dict()
-        self.addRoot(id_elem)
     
     def addRoot(id_elem):
         self.adj_list[id_elem] = [True, []]
@@ -43,23 +30,20 @@ class DAG:
     # returns the new DAG
     def merge(self, value, dag_list):
         pass
-        # Don't think we need this??
 
     # Use condition_fun to trace to bottom
     def find_leaf_where(self, condition_fun):
-        ## We'll see... 
-        pass
-        #if not condition_fun(self.root):
-        #    return None
-        #    
-        #cur = self.root
-        #
-        #while not cur.is_leaf():
-        #    for v in cur.children:
-        #        if condition_fun(v):
-        #            cur = v
-        #            break
-        #return cur
+        if not condition_fun(self.root()):
+            return None
+            
+        cur = self.root()
+        
+        while not children(id_elem):
+            for v in cur.children:
+                if condition_fun(v):
+                    cur = v
+                    break
+        return cur
 
         
 
