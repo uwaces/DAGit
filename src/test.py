@@ -1,6 +1,6 @@
 import csv
-from kirkpatrick import planar_graph
-import earcut
+from kirkpatrick import planar
+from kirkpatrick import earcut
 
 polygon = []
 
@@ -20,7 +20,7 @@ with open('../test/outer_triangle.csv', newline='') as csvfile:
 
 print("Outer Triangle: " + str(outer_triangle))
 
-pg = planar_graph.PlanarGraph()
+pg = planar.PlanarGraph()
 
 vertex_ids = [pg.addVertex(p[0], p[1]) for p in polygon]
 print("Vertex IDs of polygon: " + str(vertex_ids))
