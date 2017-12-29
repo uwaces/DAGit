@@ -2,6 +2,7 @@ import csv
 from kirkpatrick import planar
 from kirkpatrick import earcut
 from kirkpatrick import dag as DAG
+
 def getTriangulation(graph, polygon, hole=None):
         # Flatten the points
         points = []
@@ -60,6 +61,8 @@ def triangulate(graph, polygon, hole=None):
 
         return new_triangle_ids 
 
+def removeVertices(graph, verts, dag):
+        pass
 
 polygon = []
 
@@ -108,7 +111,11 @@ outer_triangles = triangulate(pg, vertex_ids_triangle, vertex_ids)
 
 print("Outer Triangle ID's " + str(outer_triangles))
 
+triangle_list = triangles + outer_triangles
+
 dag = DAG.DAG()
 
 
-
+while len(pg.find_indep_low_deg()):
+        for v in pg.find_indep_low_deg():
+                
