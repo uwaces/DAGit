@@ -68,7 +68,7 @@ class PlanarGraph:
         self.adj[point1] = l_n
 
     def connect(self, p1, p2):
-        if (not p2 in self.adj(p1)) and (not p1 in self.adj(p2)):
+        if (not p2 in self.adj[p1]) and (not p1 in self.adj[p2]):
             self.addDirectedEdge(p1, p2)
             self.addDirectedEdge(p2, p1)
 
