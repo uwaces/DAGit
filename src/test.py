@@ -1,10 +1,10 @@
 import csv
-from planar_graph import PlanarGraph
-import earcut
+from kirkpatrick import planar
+from kirkpatrick import earcut
 
 polygon = []
 
-with open('../../test/simple_polygon.csv', newline='') as csvfile:
+with open('../test/simple_polygon.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
         polygon.append((float(row[0]), float(row[1])))
@@ -13,14 +13,14 @@ print("Polygon: " + str(polygon))
 
 outer_triangle = []
 
-with open('../../test/outer_triangle.csv', newline='') as csvfile:
+with open('../test/outer_triangle.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
         outer_triangle.append((float(row[0]), float(row[1])))
 
 print("Outer Triangle: " + str(outer_triangle))
 
-pg = PlanarGraph()
+pg = planar.PlanarGraph()
 
 vertex_ids = [pg.addVertex(p[0], p[1]) for p in polygon]
 print("Vertex IDs of polygon: " + str(vertex_ids))

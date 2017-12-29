@@ -7,7 +7,7 @@ class PointLocator:
         # triangulate each polygon
         trangs = [p.triangluate() for p in polygons]
         # merge triangulations into one triangulation
-        T = functools.reduce(lamdba t1, t2: t1.merge(t2), None)
+        T = functools.reduce(lambda a,b: a.merge(b), trangs, None)
         # TODO: possibly add 3 dummy points at extremes to fix convex hull
         # treat triangulation as planar graph
         P = PlanarGraph(T)
