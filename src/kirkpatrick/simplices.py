@@ -1,14 +1,14 @@
 class Point:
     # static variable for master list of all points encountered so far
-    master_pts = dict()
+    #master_pts = dict()
 
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        if (x, y) in master_pts:
-            return master_pts[(x, y)]
-        else:
-            master_pts[(x, y)] = self
+        #if (x, y) in self.master_pts:
+        #    self = self.master_pts[(x, y)]
+        #else:
+        #    self.master_pts[(x, y)] = self
 
 
 class Line:
@@ -36,6 +36,27 @@ class Triangle:
         one_below = (not line1.point_above(point)) ^ (not line2.point_above(point)) ^ (not line3.point_above(point))
 
         return one_above or one_below
+
+    def overlaps(self, tri):
+        lines = []
+        lines.append((self.points[2], Line(self.points[0], self.points[1])))
+        lines.append((self.points[0], Line(self.points[1], self.points[2])))
+        lines.append((self.points[1], Line(self.points[2], self.points[0])))
+
+        for v, line in lines:
+            all_below = True
+            all_above = True
+            for p in tri.points:
+                above = line.point_above(p)
+                all_below = all_below and (not above)
+                all_above = all_above and above
+
+            if all_above and not line.point_above(v):
+                return False
+            elif all_below and line.point_above(v):
+                return False
+
+        return True
 
     def copy(self):
         return Triangle(self.points, self.polygon)
