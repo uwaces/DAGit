@@ -1,20 +1,19 @@
 from kirkpatrick import earcut
-from kirkpatrick import planar_graph
-
+from kirkpatrick import simplices
 
 def get_triangulation(graph, polygon, hole=None):
     # Flatten the points
     points = []
     for p in polygon:
-        points.append(graph.vertices[p].point[0])
-        points.append(graph.vertices[p].point[1])
+        points.append(graph.vertices[p].point.x)
+        points.append(graph.vertices[p].point.y)
 
     # Triangulate -- including hole
     if hole is not None:
         hole_begin = len(points) // 2
         for p in hole:
-            points.append(graph.vertices[p].point[0])
-            points.append(graph.vertices[p].point[1])
+            points.append(graph.vertices[p].point.x)
+            points.append(graph.vertices[p].point.y)
 
         triangulation = earcut.earcut(points, [hole_begin])
     else:
@@ -50,7 +49,7 @@ def triangulate(graph, polygon, hole=None):
         graph.connect(t[2], t[0])
 
         # create new triangle
-        tri = planar_graph.Triangle(t[0], t[1], t[2])
+        tri = simplices.Triangle([t[0], t[1], t[2]])
         triangle_id = len(graph.all_triangles)
         new_triangle_ids.append(triangle_id)
         graph.all_triangles.append(tri)

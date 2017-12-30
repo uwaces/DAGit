@@ -32,6 +32,7 @@ class Triangle:
     def __init__(self, points, polygon=None):
         self.points = points
         self.polygon = polygon
+        self.i = 0
 
     def contains(self, point):
         line1 = Line(self.points[0], self.points[1])
@@ -68,4 +69,14 @@ class Triangle:
 
     def copy(self):
         return Triangle(self.points, self.polygon)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.i > 2:
+            self.i = 0
+            raise StopIteration
+        self.i += 1
+        return self.points[self.i - 1]
 
