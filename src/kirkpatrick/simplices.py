@@ -1,7 +1,6 @@
 class Point:
     # static variable for master list of all points encountered so far
     #master_pts = dict()
-
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -32,8 +31,10 @@ class Triangle:
         line2 = Line(self.points[1], self.points[2])
         line3 = Line(self.points[2], self.points[0])
 
-        one_above = line1.point_above(point) ^ line2.point_above(point) ^ line3.point_above(point)
-        one_below = (not line1.point_above(point)) ^ (not line2.point_above(point)) ^ (not line3.point_above(point))
+        onetrue = lambda x, y, z: (int(x) + int(y) + int(z)) == 1
+
+        one_above = onetrue(line1.point_above(point), line2.point_above(point), line3.point_above(point))
+        one_below = onetrue((not line1.point_above(point)), (not line2.point_above(point)), (not line3.point_above(point)))
 
         return one_above or one_below
 
