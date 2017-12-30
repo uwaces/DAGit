@@ -1,10 +1,28 @@
 import copy
+from kirkpatrick import simplices
 
 class Triangle:
     def __init__(self, v1, v2, v3):
         self.v1 = v1
         self.v2 = v2
         self.v3 = v3
+        self.i = 0
+    
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.i += 1
+        if self.i == 1:
+            return self.v1
+        elif self.i == 2:
+            return self.v2
+        elif self.i == 3:
+            return self.v3
+        else:
+            self.i = 0
+            raise StopIteration
+
 
 # A vertex is a point (x, y) and a list of triangles which the vertex is a vertex of...
 # the id is to be set as unique to the vertex and the removed variable marks weather the 
@@ -28,6 +46,9 @@ class Vertex:
                 l_n.append(x)
         self.triangles = l_n
 
+    def getPoint(self):
+        return simplices.Point(self.point[0], self.point[1])
+
 
 class PlanarGraph:
     """
@@ -43,7 +64,6 @@ class PlanarGraph:
         self.vertices = [] # list of Verteices  
         self.adj = []   # parallel list of Vertecies 
         self.all_triangles = []  # list of triangles
-        self.triangulations = [] # array of lists containing triangulations at each level (triangle ids)
         self.numVertices = 0
 
     def addVertex(self, x, y):
@@ -62,7 +82,7 @@ class PlanarGraph:
     def removeDirectedEdge(self, point1, point2):
         l = self.adj[point1]
         l_n = []
-        for x in k:
+        for x in l:
             if x is not point2:
                 l_n.append(x)
         self.adj[point1] = l_n
@@ -79,7 +99,7 @@ class PlanarGraph:
         return len(self.adj[point])
 
     def removeVertex(self, point):
-        point.removed = True
+        self.vertices[point].removed = True
         self.numVertices -= 1
 
         neighbors = self.adj[point]
@@ -127,21 +147,26 @@ class PlanarGraph:
             self.vertices[t.v2].removeTriangle(t_id)
             self.vertices[t.v3].removeTriangle(t_id)
 
-        return {old_triangles: old_triangle_ids, polygon : polygon}
+        return {"old_triangles":old_triangle_ids, "polygon": polygon}
 
     def find_indep_low_deg(self):
         ind_set = [] 
         forbidden = [] 
         # add outer triangle at end so that this function does not find the final
-        # outter triangle might be a better way to do this... 
-        for i in range(0, len(self.vertices)-3): 
+        # outter triangle might be a better way to do this...
+        for i in range(3, max(3, len(self.vertices))):
             if not self.vertices[i].removed:
                 if not i in forbidden:
-                    if degree(i) <= 8:
-                        set.append(i)
-                        for n in neighbors(i):
+                    if self.degree(i) <= 8:
+                        ind_set.append(i)
+                        for n in self.neighbors(i):
                             forbidden.append(n)
         return ind_set
+
+    def overlaps(self, T1, T2):
+        T1a = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[T1]])
+        T1b = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[T2]])
+        return T1a.overlaps(T1b)
 
     def copy(self):
         pass
