@@ -38,7 +38,7 @@ class DAG:
     def find_leaf_where(self, condition_fun):
         if not condition_fun(self.root()):
             return None
-            
+
         cur = self.root()
         
         while not children(id_elem):
@@ -47,8 +47,6 @@ class DAG:
                     cur = v
                     break
         return cur
-
-        
 
 
 # DAG OF TRIANGLES:
