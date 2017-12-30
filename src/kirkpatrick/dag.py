@@ -5,20 +5,23 @@ class DAG:
         # element -- will make some operations faster... for now roots are maintained
         # in the dictionary
         self.adj_list = dict()
+
+    def __str__(self):
+        return str(self.adj_list)
     
-    def addRoot(id_elem):
+    def addRoot(self, id_elem):
         self.adj_list[id_elem] = [True, []]
 
-    def addDirectedEdge(id1, id2):
+    def addDirectedEdge(self, id1, id2):
         if id1 not in self.adj_list:
             self.adj_list[id1] = [False, [id2]]
         else:
             self.adj_list[id1][1].append(id2)
 
-    def children(id_elem):
+    def children(self, id_elem):
         return self.adj_list[id_elem][1]
 
-    def root():
+    def root(self):
         root = None
         for x in self.adj_list:
             if self.adj_list[x][0]:

@@ -44,6 +44,7 @@ def triangulate(graph, polygon, hole=None):
         # connect the graph / add triangles to the points / return the triangle id's 
         new_triangle_ids = []
         for t in triangles:
+                print(t)
                 graph.connect(t[0], t[1])
                 graph.connect(t[1], t[2]) 
                 graph.connect(t[2], t[0]) 
@@ -61,8 +62,26 @@ def triangulate(graph, polygon, hole=None):
 
         return new_triangle_ids 
 
-def removeVertices(graph, verts, dag):
-        pass
+def removeVertices(graph, vs, dag, triangles):
+        print("LINE 66 Removing vertices: " + str(vs))
+        for v in vs:
+                print("Removing vertex: " + str(v))
+                # Remove the given vertex
+                res = graph.removeVertex(v)
+                # Remove the old triangles from the triangles 
+                triangles = [t for t in triangles if not t in res["old_triangles"]]
+                # Triangulate the resulting polygon
+                new_triangles = triangulate(graph, res["polygon"])
+
+                triangles = new_triangles + triangles
+
+                # Update DAG
+                for o in res["old_triangles"]:
+                        for n in new_triangles: 
+                                if graph.overlaps(o, n):
+                                        dag.addDirectedEdge(n, o)
+
+        return triangles
 
 polygon = []
 
@@ -115,7 +134,11 @@ triangle_list = triangles + outer_triangles
 
 dag = DAG.DAG()
 
-
 while len(pg.find_indep_low_deg()):
-        for v in pg.find_indep_low_deg():
-                
+        print(triangle_list)
+        triangle_list = removeVertices(pg, pg.find_indep_low_deg(), dag, triangle_list)
+
+print(triangle_list)
+print(dag)
+
+# DAG BUILT: Next step query:
