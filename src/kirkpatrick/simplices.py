@@ -14,6 +14,13 @@ class Line:
     def __init__(self, p1, p2):
         self.p1 = p1
         self.p2 = p2
+
+        if p2.x - p1.x == 0:
+            print("Please don't use vertical lines in polygons! We're "
+                  + "working on a fix but for now this breaks"
+                  + " the implementation.")
+            exit(1)
+
         self.m = (p2.y - p1.y) / (p2.x - p1.x)
         self.b = p1.y - self.m * p1.x
 
