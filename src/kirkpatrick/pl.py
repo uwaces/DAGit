@@ -1,13 +1,35 @@
+import sys
+import math
 from kirkpatrick import planar
 from kirkpatrick import dag
 from kirkpatrick import triangulate
+from kirkpatrick import simplices
+from kirkpatrick import poly
 
 
 class PointLocator:
-    def __init__(self, polygons, hull, vizualize=False):
+    def __init__(self, polygons, vizualize=False):
         self.polygons = polygons
-        self.hull = hull
 
+        xmin = simplices.Vertex(sys.maxsize, 0)
+        xmax = simplices.Vertex(-sys.maxsize - 1, 0)
+        ymin = simplices.Vertex(0, sys.maxsize)
+        ymax = simplices.Vertex(0, -sys.maxsize - 1)
+        for p in polygons:
+            for v in p:
+                if v.x < xmin.x: xmin = v
+                if v.x > xmax.x: xmax = v
+                if v.y < ymin.y: ymin = v
+                if v.y > ymax.y: ymax = v
+
+        width = xmax.x - xmin.x
+        height = ymax.y - ymin.y
+        Ox = width / 2 + xmin.x
+        tri_left = simplices.Vertex(Ox - width, ymin.y - 1, True)
+        tri_right = simplices.Vertex(Ox + width, ymin.y - 1, True)
+        tri_top = simplices.Vertex(Ox, ymin.y + height * 2 + 1, True)
+
+        hull = poly.Polygon("Outer Hull (None)", [tri_left, tri_right, tri_top])
         P = planar.PlanarGraph()
 
         for polygon in polygons:
