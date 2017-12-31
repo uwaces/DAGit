@@ -19,7 +19,8 @@ class DAG:
         return ret
 
     def addRoot(self, elem):
-        self.adj_list[elem] = []
+        if elem not in self.adj_list.keys():
+            self.adj_list[elem] = []
         self.root = elem
 
     def addDirectedEdge(self, v1, v2):
@@ -43,8 +44,8 @@ class DAG:
 
         cur = self.root
 
-        while not self.children(cur):
-            for v in cur.children:
+        while len(self.children(cur)) > 0:
+            for v in self.children(cur):
                 if condition_fun(v):
                     cur = v
                     break

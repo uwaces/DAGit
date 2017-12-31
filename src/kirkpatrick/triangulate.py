@@ -1,17 +1,17 @@
 from kirkpatrick import earcut
 from kirkpatrick import simplices
 
-def get_triangulation(graph, polygon, hole=None):
+def get_triangulation(graph, polygon, holes=None):
     # Flatten the points
     points = []
     for p in polygon:
         points.append(p.x)
         points.append(p.y)
 
-    # Triangulate -- including hole
-    if hole is not None:
+    # Triangulate -- including holes
+    if holes is not None:
         hole_begin = len(points) // 2
-        for p in hole:
+        for p in holes:
             points.append(p.x)
             points.append(p.y)
 
@@ -26,9 +26,9 @@ def get_triangulation(graph, polygon, hole=None):
         v2 = triangulation[i+1]
         v3 = triangulation[i+2]
 
-        p1 = polygon[v1] if v1 < len(polygon) else hole[v1 - len(polygon)]
-        p2 = polygon[v2] if v2 < len(polygon) else hole[v2 - len(polygon)]
-        p3 = polygon[v3] if v3 < len(polygon) else hole[v3 - len(polygon)]
+        p1 = polygon[v1] if v1 < len(polygon) else holes[v1 - len(polygon)]
+        p2 = polygon[v2] if v2 < len(polygon) else holes[v2 - len(polygon)]
+        p3 = polygon[v3] if v3 < len(polygon) else holes[v3 - len(polygon)]
 
         triangles.add(simplices.Triangle([p1, p2, p3]))
 
@@ -36,9 +36,9 @@ def get_triangulation(graph, polygon, hole=None):
 
 
 # Triangulate a polygon and fix graph appropriately
-def triangulate(graph, polygon, hole=None):
+def triangulate(graph, polygon, holes=None):
     # magic triangulation
-    triangles = get_triangulation(graph, polygon, hole)
+    triangles = get_triangulation(graph, polygon, holes)
 
     # connect the graph / add triangles to the points / return the triangle ids
     new_triangles = set()

@@ -1,7 +1,27 @@
-import kirkpatrick
-# main goes here
+import csv
+from kirkpatrick import poly
+from kirkpatrick import pl
+from kirkpatrick import simplices
 
-from kirkpatrick import simplices as S
+p = []
+with open('../test/simple_polygon.csv', newline='') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+    for row in spamreader:
+        p.append((float(row[0]), float(row[1])))
 
-t1 = S.Triangle([S.Point(-1, 0), S.Point(0, 2), S.Point(1, 0)])
-print(t1.contains(S.Point(-1, -1)))
+polygon = poly.InputPolygon("Inside", p)
+print(polygon)
+
+p = []
+with open('../test/outer_triangle.csv', newline='') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+    for row in spamreader:
+        p.append((float(row[0]), float(row[1])))
+
+hull = poly.InputPolygon("Outer Triangle", p)
+print(hull)
+
+locator = pl.PointLocator(polygon, hull)
+print(locator.query(simplices.Vertex(6, 4)))
+print(locator.query(simplices.Vertex(100, 100)))
+

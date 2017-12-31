@@ -16,13 +16,13 @@ class PlanarGraph:
         self.vertices = set()
         self.adj = dict()
         self.all_triangles = set()  # list of triangles
-        self.numVertices = 0
+        self.num_vertices = 0
 
     def addVertex(self, x, y, hull_member=False):
         v = simplices.Vertex(x, y, hull_member)
         self.vertices.add(v)
         self.adj[v] = set()
-        self.numVertices += 1
+        self.num_vertices += 1
         return v
 
     def addEdge(self, v1, v2):
@@ -43,9 +43,21 @@ class PlanarGraph:
     def degree(self, v):
         return len(self.adj[v])
 
+    def get_last_triangle(self):
+        if self.num_vertices != 3:
+            return None
+        else:
+            t = None
+            for x in self.vertices:
+                for y in x.triangles:
+                    t = y
+                    break
+                break
+        return t
+
     def removeVertex(self, v):
         self.vertices.remove(v)
-        self.numVertices -= 1
+        self.num_vertices -= 1
 
         # shallow copy set since we're removing stuff from self.adj
         neighbors = set(self.adj[v])
