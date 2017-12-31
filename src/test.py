@@ -142,3 +142,4 @@ print(triangle_list)
 print(dag)
 
 # DAG BUILT: Next step query:
+
