@@ -7,18 +7,18 @@ p = []
 with open('../test/simple_polygon.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
-        p.append((float(row[0]), float(row[1])))
+        p.append(simplices.Vertex(float(row[0]), float(row[1])))
 
-polygon = poly.InputPolygon("Polygon", p)
+polygon = poly.Polygon("Polygon", list(p))
 print(polygon)
 
 p = []
 with open('../test/outer_triangle.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
-        p.append((float(row[0]), float(row[1])))
+        p.append(simplices.Vertex(float(row[0]), float(row[1]), True))
 
-hull = poly.InputPolygon("Outer Hull", p)
+hull = poly.Polygon("Outer Hull", p)
 print(hull)
 
 locator = pl.PointLocator(polygon, hull, True)
