@@ -16,8 +16,8 @@ class PointLocator:
 
         P = planar.PlanarGraph()
         # Add vertices to planar graph
-        [P.addVertex(p) for p in hull]
-        [P.addVertex(p) for p in polygon]
+        [P.add_vertex(p) for p in hull]
+        [P.add_vertex(p) for p in polygon]
         # Build planar graph edges
         for v_i in range(1, len(polygon)):
             P.connect(polygon[v_i], polygon[v_i-1])
@@ -40,12 +40,12 @@ class PointLocator:
             fnum += 1
             if vizualize:
                 P.make_fig(file_name+str(fnum) + ".png")
-            old_tris, new_tris = P.removeVertices(ind_set)
+            old_tris, new_tris = P.remove_vertices(ind_set)
             # Update DAG
             for o in old_tris:
                 for n in new_tris:
                     if o.overlaps(n):
-                        self.D.addDirectedEdge(n, o)
+                        self.D.add_directed_edge(n, o)
 
             ind_set = P.find_indep_low_deg()
 
@@ -55,7 +55,7 @@ class PointLocator:
 
         # Set root of the DAG
         last = P.get_last_triangle()
-        self.D.addRoot(last)
+        self.D.add_root(last)
         print(self.D)
 
     def query(self, point):
