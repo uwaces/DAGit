@@ -20,7 +20,7 @@ for i in range(1, 8):
 # load in the big triangle from a file
 p = []
 with open('../test/crazy_outer.csv', newline='') as csvfile:
-    spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
         p.append(simplices.Vertex(float(row[0]), float(row[1]), True))
 
