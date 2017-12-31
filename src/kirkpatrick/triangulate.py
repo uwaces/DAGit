@@ -1,7 +1,7 @@
 from kirkpatrick import earcut
 from kirkpatrick import simplices
 
-def get_triangulation(graph, polygon, holes=None):
+def get_triangulation(graph, polygon, holes=None, source=None):
     # Flatten the points
     points = []
     for p in polygon:
@@ -30,7 +30,7 @@ def get_triangulation(graph, polygon, holes=None):
         p2 = polygon[v2] if v2 < len(polygon) else holes[v2 - len(polygon)]
         p3 = polygon[v3] if v3 < len(polygon) else holes[v3 - len(polygon)]
 
-        triangles.add(simplices.Triangle([p1, p2, p3]))
+        triangles.add(simplices.Triangle([p1, p2, p3], polygon=polygon.name))
 
     return triangles
 

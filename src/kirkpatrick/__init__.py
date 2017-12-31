@@ -1,7 +1,7 @@
-from kirkpatrick import point_locator as pl
-from kirkpatrick import simplices as simplices
-from kirkpatrick import dag as dag
-from kirkpatrick import input_polygon as poly
-from kirkpatrick import planar_graph as planar
-from kirkpatrick import triangulate as triangulation
-from kirkpatrick import earcut as earcut
+from kirkpatrick import pl
+from kirkpatrick import simplices
+from kirkpatrick import dag
+from kirkpatrick import poly
+from kirkpatrick import planar
+from kirkpatrick import triangulate
+from kirkpatrick import earcut

@@ -1,8 +1,8 @@
-from kirkpatrick import simplices
 from kirkpatrick import triangulate
-import numpy as np
+from kirkpatrick import poly
 import pylab as pl
-from matplotlib import collections  as mc
+from matplotlib import collections as mc
+
 
 class PlanarGraph:
     """
@@ -39,8 +39,7 @@ class PlanarGraph:
 
         fig.savefig(file_name)
 
-    def addVertex(self, x, y, hull_member=False):
-        v = simplices.Vertex(x, y, hull_member)
+    def addVertex(self, v):
         self.vertices.add(v)
         self.adj[v] = set()
         self.num_vertices += 1
@@ -110,7 +109,7 @@ class PlanarGraph:
             for x in t:
                 x.removeTriangle(t)
 
-        return v_tris, hull
+        return v_tris, poly.Polygon(None, hull)
 
     def find_indep_low_deg(self):
         ind_set = set()

@@ -79,6 +79,9 @@ class Triangle:
     def copy(self):
         return Triangle(self.vertices, self.polygon)
 
+    def __getitem__(self, item):
+        return self.vertices[item]
+
     def __iter__(self):
         return self
 
