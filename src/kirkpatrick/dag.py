@@ -49,6 +49,3 @@ class DAG:
                     cur = v
                     break
         return cur
-
-
-# DAG OF TRIANGLES:
