@@ -6,10 +6,17 @@ This project was created by Matt Asnes and Harrison Kaiser, for COMP-163: Comput
 
 # About The Project
 
+## First, A Visual Example:
+
+#### Input: 7 Polygons
 ![Polygons](https://github.com/uwaces/DAGit/raw/master/img/wild.png)
+#### Triangulated Output
 ![Initial Triangulation](https://github.com/uwaces/DAGit/raw/master/img/extri.png)
+#### One Set Removed
 ![After 1 Iteration](https://github.com/uwaces/DAGit/raw/master/img/test2.png)
-![After 3 Iterations](https://github.com/uwaces/DAGit/raw/master/img/test3.png)
+#### Four Sets Removed
+![After 3 Iterations](https://github.com/uwaces/DAGit/raw/master/img/test6.png)
+
 
 ## What Does This Do?
 The goal of point location is that from a set of polygons, like a map, we want to be able to tell which of our polygons a given point is in as fast as we possibly can. We could test each polygon, but if our polygons don't change and we're asking a lot of times, that's going to get inefficient pretty fast. Instead, we want to do a little bit of work up front in exchange for much faster querying.
