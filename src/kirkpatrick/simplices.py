@@ -45,6 +45,9 @@ class Triangle:
         self.polygon = polygon
         self.i = 0
 
+    def __str__(self):
+        return "Triangle: (" + str(self.vertices[0]) + ", " + str(self.vertices[1]) + ", " + str(self.vertices[2]) + ")"
+
     def contains(self, point):
         line1 = Line(self.vertices[0], self.vertices[1])
         line2 = Line(self.vertices[1], self.vertices[2])
