@@ -20,14 +20,13 @@ class DAG:
 
     def addRoot(self, elem):
         if elem not in self.adj_list.keys():
-            self.adj_list[elem] = []
+            self.adj_list[elem] = set()
         self.root = elem
 
     def addDirectedEdge(self, v1, v2):
         if v1 not in self.adj_list:
-            self.adj_list[v1] = [v2]
-        else:
-            self.adj_list[v1].append(v2)
+            self.adj_list[v1] = set()
+        self.adj_list[v1].add(v2)
 
     def children(self, elem):
         return self.adj_list[elem]
