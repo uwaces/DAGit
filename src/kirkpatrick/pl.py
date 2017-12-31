@@ -102,7 +102,7 @@ class PointLocator:
         while len(ind_set) > 0:
             fnum += 1
             if vizualize:
-                P.make_fig(file_name+str(fnum) + ".svg")
+                P.make_fig(file_name+str(fnum) + ".png")
             old_tris, new_tris = P.remove_vertices(ind_set)
             # Update DAG
             for o in old_tris:
