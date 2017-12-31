@@ -1,7 +1,7 @@
 from kirkpatrick import earcut
 from kirkpatrick import simplices
 
-def get_triangulation(graph, polygon, holes=None, source=None):
+def call_earcut(graph, polygon, holes=None, source=None):
     # Flatten the points
     points = []
     for p in polygon:
@@ -38,7 +38,7 @@ def get_triangulation(graph, polygon, holes=None, source=None):
 # Triangulate a polygon and fix graph appropriately
 def triangulate(graph, polygon, holes=None):
     # magic triangulation
-    triangles = get_triangulation(graph, polygon, holes)
+    triangles = call_earcut(graph, polygon, holes)
 
     # connect the graph / add triangles to the points / return the triangle ids
     new_triangles = set()

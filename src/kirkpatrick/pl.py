@@ -16,7 +16,7 @@ class PointLocator:
                 P.add_vertex(v)
             # Build planar graph edges
             for v_i in range(1, len(polygon)):
-                P.connect(polygon[v_i], polygon[v_i-1])
+                P.connect(polygon[v_i], polygon[v_i - 1])
                 P.connect(polygon[-1], polygon[0])
             # Triangulate the vertices not on the big triangle-hull
             triangulate.triangulate(P, polygon)
