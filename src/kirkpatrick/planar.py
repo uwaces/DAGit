@@ -18,7 +18,6 @@ class PlanarGraph:
         self.vertices = set()
         self.adj = dict()
         self.all_triangles = set()  # list of triangles
-        self.num_vertices = 0
 
     def make_fig(self, file_name):
         points_x = [p.x for p in self.adj.keys()]
@@ -42,7 +41,6 @@ class PlanarGraph:
     def add_vertex(self, v):
         self.vertices.add(v)
         self.adj[v] = set()
-        self.num_vertices += 1
         return v
 
     def add_edge(self, v1, v2):
@@ -64,7 +62,8 @@ class PlanarGraph:
         return len(self.adj[v])
 
     def get_last_triangle(self):
-        if self.num_vertices != 3:
+        if len(self.vertices) != 3:
+            print("Number of vertices is not 3, cannot find triangle!")
             return None
         else:
             t = None
@@ -90,7 +89,6 @@ class PlanarGraph:
 
     def remove_vertex(self, v):
         self.vertices.remove(v)
-        self.num_vertices -= 1
 
         # shallow copy set since we're removing stuff from self.adj
         neighbors = set(self.adj[v])
