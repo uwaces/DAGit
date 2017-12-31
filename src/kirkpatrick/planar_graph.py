@@ -1,36 +1,14 @@
-import copy
 from kirkpatrick import simplices
-
-class Triangle:
-    def __init__(self, v1, v2, v3):
-        self.v1 = v1
-        self.v2 = v2
-        self.v3 = v3
-        self.i = 0
-    
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        self.i += 1
-        if self.i == 1:
-            return self.v1
-        elif self.i == 2:
-            return self.v2
-        elif self.i == 3:
-            return self.v3
-        else:
-            self.i = 0
-            raise StopIteration
+from kirkpatrick import triangulate
 
 
-# A vertex is a point (x, y) and a list of triangles which the vertex is a vertex of...
+# A vertex is a point (x, y) and a list of triangles of which the vertex is a vertex
 # the id is to be set as unique to the vertex and the removed variable marks weather the 
 # vertex was removed or not.
 class Vertex:
     def __init__(self, x, y):
         self.id = -1
-        self.point = (x, y)
+        self.point = simplices.Point(x, y)
         self.triangles = []
         self.removed = False
 
@@ -47,7 +25,7 @@ class Vertex:
         self.triangles = l_n
 
     def getPoint(self):
-        return simplices.Point(self.point[0], self.point[1])
+        return simplices.Point(self.point.x, self.point.y)
 
 
 class PlanarGraph:
@@ -61,8 +39,8 @@ class PlanarGraph:
     are decremented 
     """
     def __init__(self):
-        self.vertices = [] # list of Verteices  
-        self.adj = []   # parallel list of Vertecies 
+        self.vertices = [] # list of Verteices
+        self.adj = []   # parallel list of Vertecies
         self.all_triangles = []  # list of triangles
         self.numVertices = 0
 
@@ -72,7 +50,7 @@ class PlanarGraph:
 
         self.vertices.append(v)
         self.adj.append([])
-        self.numVertices += 1 
+        self.numVertices += 1
 
         return v.id
 
@@ -104,16 +82,18 @@ class PlanarGraph:
 
         neighbors = self.adj[point]
 
-        # remove the neighboring directed edges 
+        # remove the neighboring directed edges
         for p2 in neighbors:
             self.removeDirectedEdge(p2, point)
             self.removeDirectedEdge(point, p2)
 
-        # get the old triangle id's of the triangles adjacent 
+        # get the old triangle id's of the triangles adjacent
         # to the vertex to removed
         old_triangle_ids = [t for t in self.vertices[point].triangles]
 
-        polygon = [] # clock wise list of vertexes around the vertex to remove (i.e. polygon to re-triangulate)
+        # clockwise list of vertexes around the vertex to remove,
+        # i.e. the part we need to retriangulate
+        polygon = []
 
         triangles = []
         for t_id in self.vertices[point].triangles:
@@ -125,7 +105,7 @@ class PlanarGraph:
         query = nxt[-1]
         polygon.append(query)
         triangles = triangles[1:]
-        for i in range(0,len(neighbors)-2):
+        for i in range(0, len(neighbors)-2):
             # find the triangle which contains the query point
             for t in triangles:
                 if query in t:
@@ -143,15 +123,17 @@ class PlanarGraph:
 
         for t_id in old_triangle_ids:
             t = self.all_triangles[t_id]
-            self.vertices[t.v1].removeTriangle(t_id)
-            self.vertices[t.v2].removeTriangle(t_id)
-            self.vertices[t.v3].removeTriangle(t_id)
+            for p in t:
+                self.vertices[p].removeTriangle(t_id)
+            #self.vertices[t.points[0]].removeTriangle(t_id)
+            #self.vertices[t.points[1]].removeTriangle(t_id)
+            #self.vertices[t.points[2]].removeTriangle(t_id)
 
-        return {"old_triangles":old_triangle_ids, "polygon": polygon}
+        return {"old_triangles": old_triangle_ids, "polygon": polygon}
 
     def find_indep_low_deg(self):
-        ind_set = [] 
-        forbidden = [] 
+        ind_set = []
+        forbidden = []
         # add outer triangle at end so that this function does not find the final
         # outter triangle might be a better way to do this...
         for i in range(3, max(3, len(self.vertices))):
@@ -163,14 +145,25 @@ class PlanarGraph:
                             forbidden.append(n)
         return ind_set
 
-    def overlaps(self, T1, T2):
-        T1a = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[T1]])
-        T1b = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[T2]])
-        return T1a.overlaps(T1b)
+    def removeVertices(self, vs, dag, triangles):
+        print("LINE 66 Removing vertices: " + str(vs))
+        for v in vs:
+            print("Removing vertex: " + str(v))
+            # Remove the given vertex
+            res = self.removeVertex(v)
+            # Remove the old triangles from the triangles
+            triangles = [t for t in triangles if not t in res["old_triangles"]]
+            # Triangulate the resulting polygon
+            new_triangles = triangulate.triangulate(self, res["polygon"])
 
-    def copy(self):
-        pass
-        #new_PlanarGraph = PlanarGraph()
-        #new_PlanarGraph.adj_list = self.adj_list.copy()
-        ## May cause issues -- not sure how objects in dictionary are copied or 
-        ## what the desired behavior is... .deepcopy() is also an option
+            triangles = new_triangles + triangles
+
+            # Update DAG
+            for o in res["old_triangles"]:
+                for n in new_triangles:
+                    t1 = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[o]])
+                    t2 = simplices.Triangle([self.vertices[p].getPoint() for p in self.all_triangles[n]])
+                    if t1.overlaps(t2):
+                        dag.addDirectedEdge(n, o)
+
+            return triangles

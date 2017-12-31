@@ -1,6 +1,10 @@
-class SimplePolygon:
-        def __init__(self, name, points, edges):
+class InputPolygon:
+        def __init__(self, name, points):
                 self.name = name
-                self.points = points  # arrange is a different way?
-                self.edges = edges  # arrange??
+                self.points = points
 
+        def __str__(self):
+            return self.name + ": " + str(self.points)
+
+        def __getitem__(self, item):
+            return self.points[item]
