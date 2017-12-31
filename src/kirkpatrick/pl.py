@@ -1,35 +1,32 @@
 from kirkpatrick import planar
 from kirkpatrick import dag
 from kirkpatrick import triangulate
-import functools
 
 
 class PointLocator:
-    def __init__(self, polygon, hull, vizualize=False):
-        self.polygon = polygon
+    def __init__(self, polygons, hull, vizualize=False):
+        self.polygons = polygons
         self.hull = hull
-#        # triangulate each polygon
-#        trangs = [p.triangluate() for p in polygons]
-#        # merge triangulations into one triangulation
-#        T = functools.reduce(lambda a,b: a.merge(b), trangs, None)
-#        # TODO: possibly add 3 dummy points at extremes to fix convex hull
 
         P = planar.PlanarGraph()
-        # Add vertices to planar graph
-        [P.add_vertex(p) for p in hull]
-        [P.add_vertex(p) for p in polygon]
-        # Build planar graph edges
-        for v_i in range(1, len(polygon)):
-            P.connect(polygon[v_i], polygon[v_i-1])
-            P.connect(polygon[-1], polygon[0])
-        # Connect up the outer triangle-hull
+
+        for polygon in polygons:
+            # Add vertices to planar graph
+            for v in polygon:
+                P.add_vertex(v)
+            # Build planar graph edges
+            for v_i in range(1, len(polygon)):
+                P.connect(polygon[v_i], polygon[v_i-1])
+                P.connect(polygon[-1], polygon[0])
+            # Triangulate the vertices not on the big triangle-hull
+            triangulate.triangulate(P, polygon)
+
+        for v in hull:
+            P.add_vertex(v)
         for v_i in range(1, len(hull)):
             P.connect(hull[v_i], hull[v_i-1])
         P.connect(hull[-1], hull[0])
-
-        # Triangulate the vertices not on the big triangle-hull
-        triangulate.triangulate(P, polygon)
-        triangulate.triangulate(P, hull, polygon)
+        triangulate.triangulate(P, hull, [v for p in polygons for v in p])
 
         file_name = "../test/test"
         fnum = 0
