@@ -32,11 +32,6 @@ class DAG:
     def children(self, elem):
         return self.adj_list[elem]
 
-    # Take a value to be the new root and a list of DAGs to be the children
-    # returns the new DAG
-    def merge(self, value, dag_list):
-        pass
-
     # Use condition_fun to trace to bottom
     def find_leaf_where(self, condition_fun):
         if not condition_fun(self.root):
