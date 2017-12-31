@@ -15,9 +15,12 @@ class PointLocator:
             for v in polygon:
                 P.add_vertex(v)
             # Build planar graph edges
+
+        for polygon in polygons:
             for v_i in range(1, len(polygon)):
                 P.connect(polygon[v_i], polygon[v_i - 1])
                 P.connect(polygon[-1], polygon[0])
+        for polygon in polygons:
             # Triangulate the vertices not on the big triangle-hull
             triangulate.triangulate(P, polygon)
 
@@ -26,7 +29,48 @@ class PointLocator:
         for v_i in range(1, len(hull)):
             P.connect(hull[v_i], hull[v_i-1])
         P.connect(hull[-1], hull[0])
-        triangulate.triangulate(P, hull, [v for p in polygons for v in p])
+
+        alledges = set()
+        for p in polygons:
+            edges = set()
+            for i in range(1, len(p)):
+                edges.add(frozenset([p[i], p[i - 1]]))
+            edges.add(frozenset([p[-1], p[0]]))
+            alledges.add(frozenset(edges))
+
+        union = set()
+        for polyedges in alledges:
+            union = union.union(polyedges)
+
+        intersections = set()
+        for polyedges1 in alledges:
+            for polyedges2 in alledges:
+                if polyedges1 == polyedges2:
+                    continue
+                intersections.add(frozenset(polyedges1.intersection(polyedges2)))
+
+        hole_edges = set()
+        for edge in union:
+            for intersection in intersections:
+                if edge in intersection:
+                    break
+            else:
+                hole_edges.add(edge)
+
+        hole = []
+        cur_edge = list(hole_edges)[0]
+        endpts = lambda s: list(s)
+        hole.append(endpts(cur_edge)[0])
+        nxt = endpts(cur_edge)[1]
+        while nxt != hole[0]:
+            hole.append(nxt)
+            for s in hole_edges:
+                if s != cur_edge and nxt in s:
+                    cur_edge = s
+                    nxt = [x for x in s if x is not nxt][0]
+                    break
+
+        triangulate.triangulate(P, hull, hole)
 
         file_name = "../test/test"
         fnum = 0
