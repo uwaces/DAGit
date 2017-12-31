@@ -4,13 +4,12 @@
 
 class Vertex():
     ALL_VERTICIES = dict()
-
     def __new__(cls, *args):
-        if args in Point.ALL_POINTS:
-            obj = Point.ALL_POINTS[args]
+        if args in Vertex.ALL_VERTICIES:
+            obj = Vertex.ALL_VERTICIES[args]
         else:
-            obj = super(Point, cls).__new__(cls)
-            Point.ALL_POINTS[args] = obj
+            obj = super(Vertex, cls).__new__(cls)
+            Vertex.ALL_VERTICIES[args] = obj
         return obj
 
     def __init__(self, x, y, hull_member=False):
