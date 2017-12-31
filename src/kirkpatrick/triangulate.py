@@ -43,7 +43,6 @@ def triangulate(graph, polygon, holes=None):
     # connect the graph / add triangles to the points / return the triangle ids
     new_triangles = set()
     for t in triangles:
-        print(t)
         graph.connect(t.vertices[0], t.vertices[1])
         graph.connect(t.vertices[1], t.vertices[2])
         graph.connect(t.vertices[2], t.vertices[0])

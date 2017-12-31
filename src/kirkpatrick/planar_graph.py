@@ -127,7 +127,6 @@ class PlanarGraph:
 
     def removeVertices(self, vs):
         for v in vs:
-            print("Removing vertex: " + str(v))
             # Remove the given vertex
             old_tris, hull = self.removeVertex(v)
 

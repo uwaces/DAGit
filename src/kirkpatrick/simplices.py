@@ -48,17 +48,12 @@ class Triangle:
     def __str__(self):
         return "Triangle: (" + str(self.vertices[0]) + ", " + str(self.vertices[1]) + ", " + str(self.vertices[2]) + ")"
 
-    def contains(self, point):
-        line1 = Line(self.vertices[0], self.vertices[1])
-        line2 = Line(self.vertices[1], self.vertices[2])
-        line3 = Line(self.vertices[2], self.vertices[0])
 
-        onetrue = lambda x, y, z: (int(x) + int(y) + int(z)) == 1
-
-        one_above = onetrue(line1.point_above(point), line2.point_above(point), line3.point_above(point))
-        one_below = onetrue((not line1.point_above(point)), (not line2.point_above(point)), (not line3.point_above(point)))
-
-        return one_above or one_below
+    def contains(self, v):
+        ccw = lambda a, b, c: (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y)
+        return ((ccw(self.vertices[0], self.vertices[1], v) > 0)
+                and (ccw(self.vertices[1], self.vertices[2], v) > 0)
+                and (ccw(self.vertices[2], self.vertices[0], v) > 0))
 
     def overlaps(self, tri):
         lines = []

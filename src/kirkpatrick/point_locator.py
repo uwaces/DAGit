@@ -56,8 +56,7 @@ class PointLocator:
         last = P.get_last_triangle()
         self.D.addRoot(last)
         print(self.D)
-        print("Last Triangle: " + str(last))
 
     def query(self, point):
         cf = lambda x: x.contains(point)
-        return self.D.find_leaf_where(cf)
+        return self.D.find_leaf_where(cf) != None
