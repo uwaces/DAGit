@@ -13,11 +13,11 @@ class Vertex:
     def __str__(self):
         return "(" + str(self.x) + ", " + str(self.y) + ")"
 
-    def addTriangle(self, tri):
+    def add_triangle(self, tri):
         if tri not in self.triangles:
             self.triangles.add(tri)
 
-    def removeTriangle(self, tri):
+    def remove_triangle(self, tri):
         self.triangles.remove(tri)
 
 

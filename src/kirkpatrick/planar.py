@@ -39,23 +39,23 @@ class PlanarGraph:
 
         fig.savefig(file_name)
 
-    def addVertex(self, v):
+    def add_vertex(self, v):
         self.vertices.add(v)
         self.adj[v] = set()
         self.num_vertices += 1
         return v
 
-    def addEdge(self, v1, v2):
+    def add_edge(self, v1, v2):
         self.adj[v1].add(v2)
         self.adj[v2].add(v1)
 
-    def removeEdge(self, v1, v2):
+    def remove_edge(self, v1, v2):
         self.adj[v1].remove(v2)
         self.adj[v2].remove(v1)
 
     def connect(self, p1, p2):
         if (not p2 in self.adj[p1]) and (not p1 in self.adj[p2]):
-            self.addEdge(p1, p2)
+            self.add_edge(p1, p2)
 
     def neighbors(self, v):
         return self.adj[v]
@@ -75,7 +75,20 @@ class PlanarGraph:
                 break
         return t
 
-    def removeVertex(self, v):
+    def find_indep_low_deg(self):
+        ind_set = set()
+        forbidden = set()
+        # add outer triangle at end so that this function does not find the
+        # final outter triangle might be a better way to do this
+        for v in self.vertices:
+            if not v in forbidden and not v.hull_member:
+                if self.degree(v) <= 8:
+                    ind_set.add(v)
+                    for n in self.neighbors(v):
+                        forbidden.add(n)
+        return ind_set
+
+    def remove_vertex(self, v):
         self.vertices.remove(v)
         self.num_vertices -= 1
 
@@ -84,7 +97,7 @@ class PlanarGraph:
 
         # remove the neighboring directed edges
         for p in neighbors:
-            self.removeEdge(p, v)
+            self.remove_edge(p, v)
 
         # get the triangles v was a part of; shallow copy
         v_tris = [t for t in v.triangles]
@@ -107,27 +120,14 @@ class PlanarGraph:
 
         for t in v_tris:
             for x in t:
-                x.removeTriangle(t)
+                x.remove_triangle(t)
 
         return v_tris, poly.Polygon(None, hull)
 
-    def find_indep_low_deg(self):
-        ind_set = set()
-        forbidden = set()
-        # add outer triangle at end so that this function does not find the
-        # final outter triangle might be a better way to do this
-        for v in self.vertices:
-            if not v in forbidden and not v.hull_member:
-                if self.degree(v) <= 8:
-                    ind_set.add(v)
-                    for n in self.neighbors(v):
-                        forbidden.add(n)
-        return ind_set
-
-    def removeVertices(self, vs):
+    def remove_vertices(self, vs):
         for v in vs:
             # Remove the given vertex
-            old_tris, hull = self.removeVertex(v)
+            old_tris, hull = self.remove_vertex(v)
 
             # Triangulate the resulting polygon
             new_tris = triangulate.triangulate(self, hull)

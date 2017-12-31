@@ -18,12 +18,12 @@ class DAG:
         ret += "=================================="
         return ret
 
-    def addRoot(self, elem):
+    def add_root(self, elem):
         if elem not in self.adj_list.keys():
             self.adj_list[elem] = set()
         self.root = elem
 
-    def addDirectedEdge(self, v1, v2):
+    def add_directed_edge(self, v1, v2):
         if v1 not in self.adj_list:
             self.adj_list[v1] = set()
         self.adj_list[v1].add(v2)

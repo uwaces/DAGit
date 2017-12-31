@@ -52,8 +52,8 @@ def triangulate(graph, polygon, holes=None):
         graph.all_triangles.add(t)
 
         # add new triangle to each of the three vertices' lists
-        t.vertices[0].addTriangle(t)
-        t.vertices[1].addTriangle(t)
-        t.vertices[2].addTriangle(t)
+        t.vertices[0].add_triangle(t)
+        t.vertices[1].add_triangle(t)
+        t.vertices[2].add_triangle(t)
 
     return new_triangles
