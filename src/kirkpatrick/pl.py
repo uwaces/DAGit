@@ -57,4 +57,7 @@ class PointLocator:
 
     def query(self, point):
         cf = lambda x: x.contains(point)
-        return self.D.find_leaf_where(cf)
+        triangle = self.D.find_leaf_where(cf)
+        if triangle is None:
+            return None
+        return triangle.polygon
