@@ -21,7 +21,7 @@ with open('../test/outer_triangle.csv', newline='') as csvfile:
 hull = poly.InputPolygon("Outer Triangle", p)
 print(hull)
 
-locator = pl.PointLocator(polygon, hull)
+locator = pl.PointLocator(polygon, hull, True)
 print(locator.query(simplices.Vertex(6, 4)))
 print(locator.query(simplices.Vertex(100, 100)))
 

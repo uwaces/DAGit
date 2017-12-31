@@ -5,7 +5,7 @@ import functools
 
 
 class PointLocator:
-    def __init__(self, polygon, hull):
+    def __init__(self, polygon, hull, vizualize=False):
         self.polygon = polygon
 #        # triangulate each polygon
 #        trangs = [p.triangluate() for p in polygons]
@@ -30,9 +30,14 @@ class PointLocator:
         triangulate.triangulate(P, vertices)
         triangulate.triangulate(P, hull, vertices)
 
+        file_name = "../test/test"
+        fnum = 0
+
         self.D = dag.DAG()
         ind_set = P.find_indep_low_deg()
         while len(ind_set) > 0:
+            fnum += 1
+            P.make_fig(file_name+str(fnum) + ".png")
             old_tris, new_tris = P.removeVertices(ind_set)
             # Update DAG
             for o in old_tris:
@@ -42,10 +47,14 @@ class PointLocator:
 
             ind_set = P.find_indep_low_deg()
 
+        fnum += 1
+        P.make_fig(file_name + str(fnum) + ".png")
+
         # Set root of the DAG
         last = P.get_last_triangle()
         self.D.addRoot(last)
         print(self.D)
+        print("Last Triangle: " + str(last))
 
     def query(self, point):
         cf = lambda x: x.contains(point)
