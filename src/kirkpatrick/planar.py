@@ -37,7 +37,7 @@ class PlanarGraph:
         ax.plot(points_x, points_y, 'h', color='#dd3d33', markersize=5)
         ax.plot(points_x, points_y, 'h', color='#ff7970', markersize=3)
 
-        fig.savefig(file_name, dpi=400)
+        fig.savefig(file_name, dpi=600)
 
     def add_vertex(self, v):
         self.vertices.add(v)
