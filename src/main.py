@@ -24,6 +24,14 @@ with open('../test/crazy_outer.csv', newline='') as csvfile:
 hull = poly.Polygon("Outer Hull (None)", p)
 
 locator = pl.PointLocator(polygons, hull, True)
+print(locator.query(simplices.Vertex(15, 0)))
 print(locator.query(simplices.Vertex(5, 0)))
+print(locator.query(simplices.Vertex(5, 10)))
+print(locator.query(simplices.Vertex(5, -10)))
+print(locator.query(simplices.Vertex(20, 10)))
+print(locator.query(simplices.Vertex(20, 0)))
+print(locator.query(simplices.Vertex(10, 5)))
+print(locator.query(simplices.Vertex(0, 0)))
+print(locator.query(simplices.Vertex(40, 0)))
 print(locator.query(simplices.Vertex(100, 100)))
 
