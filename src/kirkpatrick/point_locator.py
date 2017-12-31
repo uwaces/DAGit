@@ -37,7 +37,8 @@ class PointLocator:
         ind_set = P.find_indep_low_deg()
         while len(ind_set) > 0:
             fnum += 1
-            P.make_fig(file_name+str(fnum) + ".png")
+            if vizualize:
+                P.make_fig(file_name+str(fnum) + ".png")
             old_tris, new_tris = P.removeVertices(ind_set)
             # Update DAG
             for o in old_tris:
@@ -48,7 +49,8 @@ class PointLocator:
             ind_set = P.find_indep_low_deg()
 
         fnum += 1
-        P.make_fig(file_name + str(fnum) + ".png")
+        if vizualize:
+            P.make_fig(file_name + str(fnum) + ".png")
 
         # Set root of the DAG
         last = P.get_last_triangle()
