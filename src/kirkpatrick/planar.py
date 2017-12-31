@@ -1,6 +1,6 @@
 from kirkpatrick import triangulate
 from kirkpatrick import poly
-import pylab as pl
+import pylab
 from matplotlib import collections as mc
 
 
@@ -29,7 +29,7 @@ class PlanarGraph:
 
         lc = mc.LineCollection(lines, color='#429bf4', linewidths=0.75)
 
-        fig, ax = pl.subplots()
+        fig, ax = pylab.subplots()
         ax.axis("off")
         ax.add_collection(lc)
         ax.autoscale()

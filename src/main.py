@@ -6,10 +6,17 @@ from kirkpatrick import simplices
 # Initialize list of Polygon objects to pass into point locator
 polygons = []
 
-# Load one polygon at a time into our list, from CSV test files
-for i in range(1, 8):
+base_filename_str = "../test/crazy_poly"
+num_polygons = 8
+# Load one polygon at a time into our list, from CSV test files.
+# These files are formatted as:
+# base_filename_str1.csv
+# base_filename_str2.csv
+# base_filename_str3.csv
+# ...etc, up to num_polygons
+for i in range(1, num_polygons):
     p = []
-    with open("../test/crazy_poly" + str(i) + ".csv", newline='') as csvfile:
+    with open(base_filename_str + str(i) + ".csv", newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in spamreader:
             p.append(simplices.Vertex(float(row[0]), float(row[1])))
