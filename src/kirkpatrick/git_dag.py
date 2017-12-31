@@ -1,3 +1,5 @@
+import git
+
 class DAG:
     def __init__(self, root=None):
         self.adj_list = dict()
@@ -28,6 +30,17 @@ class DAG:
 
     def children(self, elem):
         return self.adj_list[elem] 
+
+    def biuld_git(self, filepath):
+        """
+        make a new repo with git at the filepath
+        make a branch for each child in the adj_list
+        copy adj_list
+        until adj_list copy is empty... 
+        remove children from adj_list copy (including the references in other nodes)
+        for each child in copy - merge branches -- and overwrite merge conflict with new triangle
+        """
+        pass
 
     # Use condition_fun to trace to bottom
     def find_leaf_where(self, condition_fun):
