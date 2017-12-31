@@ -24,8 +24,8 @@ class PlanarGraph:
         points_x = [p.x for p in self.adj.keys()]
         points_y = [p.y for p in self.adj.keys()]
         lines = []
-        for p1, adj_list in adj_list.items():
-            for p2 in adj_list:
+        for p1, adj in self.adj.items():
+            for p2 in adj:
                 lines.append([(p1.x, p1.y), (p2.x, p2.y)])
 
         lc = mc.LineCollection(lines, linewidths=2)
