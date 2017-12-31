@@ -6,10 +6,10 @@ This project was created by Matt Asnes and Harrison Kaiser, for COMP-163: Comput
 
 # About The Project
 
-![Polygons](https://github.com/uwaces/DAGit/master/img/ex.png)
-![Initial Triangulation](https://github.com/uwaces/DAGit/master/img/extri.svg)
-![After 1 Iteration](https://github.com/uwaces/DAGit/master/img/test2.svg)
-![After 3 Iterations](https://github.com/uwaces/DAGit/master/img/test4.svg)
+![Polygons](https://github.com/uwaces/DAGit/raw/master/img/ex.png)
+![Initial Triangulation](https://github.com/uwaces/DAGit/raw/master/img/extri.svg)
+![After 1 Iteration](https://github.com/uwaces/DAGit/raw/master/img/test2.svg)
+![After 3 Iterations](https://github.com/uwaces/DAGit/raw/master/img/test4.svg)
 
 ## What Does This Do?
 The goal of point location is that from a set of polygons, like a map, we want to be able to tell which of our polygons a given point is in as fast as we possibly can. We could test each polygon, but if our polygons don't change and we're asking a lot of times, that's going to get inefficient pretty fast. Instead, we want to do a little bit of work up front in exchange for much faster querying.
@@ -94,7 +94,7 @@ with one such file per polygon.
 
 # Library Architecture
 
-![Architecture Diagram](https://github.com/uwaces/DAGit/master/img/arch.svg)
+![Architecture Diagram](https://github.com/uwaces/DAGit/raw/master/img/arch.svg)
 
 We structured the library around one main interface, `PointLocator`, which is fed by `Polygons`. PointLocator maintains and interoperates between two structures: a `PlanarGraph` and a `DAG`. The planar graph is actually the triangulation of the input polygons, where at first each triangle knows what polygon it was from. Our `Vertex` class ensures that references to vertices with the same coordinates are unique (i.e. vertices are atomic) so polygons which share points use the same `Vertex` object. This triangulation is refined by finding independent sets of low degree vertices, and then removing them (making sure to retriangulate the hole we made). When a set of points is removed, we gather the trangles which contained that vertex (each vertex has a list of triangles it is in) and bring our DAG into the picture. The DAG's nodes represent triangles, and an edge represents a triangle which was removed overlapping a triangle which was created when we retriangulated. In this way we build up our less and less refined picture of the polygons, and can dig through the DAG in logarithmic time for querying.
 
