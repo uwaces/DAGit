@@ -1,4 +1,3 @@
-# intended to work on triangle id's... 
 class DAG:
     def __init__(self, root=None):
         # May consider making 2 parallel arrays and keeping the root as the first
