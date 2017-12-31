@@ -27,16 +27,17 @@ class PlanarGraph:
             for p2 in adj:
                 lines.append([(p1.x, p1.y), (p2.x, p2.y)])
 
-        lc = mc.LineCollection(lines, linewidths=2)
+        lc = mc.LineCollection(lines, color='#429bf4', linewidths=0.75)
 
         fig, ax = pl.subplots()
         ax.axis("off")
         ax.add_collection(lc)
         ax.autoscale()
         ax.margins(0.1)
-        ax.plot(points_x, points_y, 'ro')
+        ax.plot(points_x, points_y, 'h', color='#dd3d33', markersize=5)
+        ax.plot(points_x, points_y, 'h', color='#ff7970', markersize=3)
 
-        fig.savefig(file_name)
+        fig.savefig(file_name, dpi=400)
 
     def add_vertex(self, v):
         self.vertices.add(v)
