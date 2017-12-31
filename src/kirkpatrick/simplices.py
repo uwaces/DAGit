@@ -2,8 +2,7 @@
 # the id is to be set as unique to the vertex and the removed variable marks weather the 
 # vertex was removed or not.
 
-
-class Vertex:
+class Vertex():
     def __init__(self, x, y, hull_member=False):
         self.x = x
         self.y = y
