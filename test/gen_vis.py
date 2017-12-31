@@ -72,7 +72,7 @@ for p1, adj_list in adj_list.items():
 lc = mc.LineCollection(lines, linewidths=2)
 
 fig, ax = pl.subplots()
-ax.axis("off")
+#ax.axis("off")
 ax.add_collection(lc)
 ax.autoscale()
 ax.margins(0.1)
