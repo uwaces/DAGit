@@ -38,13 +38,57 @@ We can then query for which polygon a point is contained in as follows:
 
 # Library Interface
 
-We have an existing example implementation in `main.py`. Our interface is as follows:
+Our interface is as follows:
 
-TODO! We're not done writing code yet, so I'll wait on writing this.
+We have written a library, `kirkpatrick`, This library contains several modules, of which only two or three are used by an end-user in most cases. The most important of these is `pl`, which contains the class `pl.PointLocator`. This class has only one method, `query`, which allows the querying of points. When creating a new point locator, a user passes in one parameter: a list of polygons to operate on. These polygons are of the class `poly.Polygon`, which is created using a list of `simplices.Vertex` objects. Then a typical workflow goes something like:
+```
+from kirkpatrick import pl
+from kirkpatrick import poly
+from kirkpatrick import simplices
+
+
+# ...load data from disk, in any desired format
+
+polygons = []
+
+# Loop over all polygons
+for polygon in input_data:
+    
+    # Make Vertex objects
+    vertices = []
+    for x_coord, y_coord in input:
+        new_vertex = simplices.Vertex(x_coord, y_coord)
+        vertices.append(new_vertex)
+
+    # Make polygon object
+    polygon = poly.Polygon("Polygon Name Here", vertices)
+    polygons.append(polygon)
+
+# Create PointLocator object from our list of polygons
+locator = pl.PointLocator(polygons)
+
+# Query it with points
+print(locator.query(0, 0))
+print(locator.query(0, 10))
+print(locator.query(12.4, -2.1))
+```
+
+We have an existing example implementation in `main.py`, which loads data from example files in our `test` directory; the input data looks like:
+
+```
+15.42 5.32
+12.42 -3.08
+16.64 -3.74
+18.32 4.48
+23.94 4.36
+14.0 6.0
+```
+
+with one such file per polygon.
 
 # Library Architecture
 
-TODO! We're not done writing code yet, so I'll wait on writing this.
+
 
 # Appendix
 
@@ -63,3 +107,10 @@ The word `master` is also special. This is what's called a branch in git. You ca
 Branches help with this: if I'm working on implementing the triangulation algorithm, and Harrison is working on implementing the planar graph, I can say `git checkout -b triangulation` and Harrison can say `git checkout -b planar_graph`. Then we can both test our features independently; I can always run my triangulation and know that any time it doesn't work, it's my fault, and I won't be tripped up by bugs from Harrison's code. When we're both done we say say `git checkout master` to go to the master branch, and say `git merge triangulation planar_graph` to merge both branches into master. Sometimes, if the same file has been editied multiple times, git can't figure out how to merge the changes and will request human assistance in a "merge conflict", but most of the time it works out.
 
 This talk of nodes branches merging may be rining bells as this point, but git effectively is a glorified DAG with some text processing utilities. Each branch is a directed edge, where all edges go forwards (representing going forwards in time), a split in the DAG represents a branch separating off from another branch, and two branches merging in git creates the same in the DAG. We use this fact in our project and use git in a way it really, really isn't supposed to be used: we make each 'commit' a triangle, and then branch off from that into different commits which represent more triangles. At the root, the first commit, we have one large triangle that is the largest triangle in the Kirkpatrick point location algorithm.
+
+
+# Appendix
+References and credits:
+We are using a Python port of the earcut triangulation algorithm found at https://github.com/joshuaskelly/earcut-python for our polygon triangulation. This is algorithmically slower, but has an easy interface.
+
+We found https://github.com/rkaneriya/point-location to be a helpful reference implementation, albeit in JavaScript.
