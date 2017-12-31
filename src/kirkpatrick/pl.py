@@ -119,7 +119,6 @@ class PointLocator:
         # Set root of the DAG
         last = P.get_last_triangle()
         self.D.add_root(last)
-        print(self.D)
 
     def query(self, point):
         cf = lambda x: x.contains(point)
