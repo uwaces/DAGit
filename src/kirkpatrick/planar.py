@@ -124,11 +124,15 @@ class PlanarGraph:
         return v_tris, poly.Polygon(None, hull)
 
     def remove_vertices(self, vs):
+        all_old_tris = []
+        all_new_tris = []
         for v in vs:
             # Remove the given vertex
             old_tris, hull = self.remove_vertex(v)
+            all_old_tris += old_tris
 
             # Triangulate the resulting polygon
             new_tris = triangulate.triangulate(self, hull)
+            all_new_tris += new_tris
 
-            return old_tris, new_tris
+        return all_old_tris, all_new_tris
