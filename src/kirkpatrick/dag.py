@@ -27,6 +27,8 @@ class DAG:
         if v1 not in self.adj_list:
             self.adj_list[v1] = set()
         self.adj_list[v1].add(v2)
+        if v2 not in self.adj_list:
+            self.adj_list[v2] = set()
 
     def children(self, elem):
         return self.adj_list[elem]
@@ -42,7 +44,6 @@ class DAG:
             return None
 
         cur = self.root
-
         while len(self.children(cur)) > 0:
             for v in self.children(cur):
                 if condition_fun(v):
