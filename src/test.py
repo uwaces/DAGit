@@ -54,9 +54,12 @@ print("Outer Triangle ID's " + str(outer_triangles))
 
 dag = DAG.DAG()
 
+file_name = "test"
+i = 0
 ind_set = pg.find_indep_low_deg()
 while len(ind_set) > 0:
-#    print(triangle_list)
+    i += 1
+    pg.make_fig(file_name+str(i)+".png")
     old_tris, new_tris = pg.removeVertices(ind_set)
 
     # Update DAG
@@ -66,6 +69,9 @@ while len(ind_set) > 0:
                 dag.addDirectedEdge(n, o)
 
     ind_set = pg.find_indep_low_deg()
+
+i += 1
+pg.make_fig(file_name+str(i)+".png")
 
 #print(triangle_list)
 print(dag)
