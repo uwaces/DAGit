@@ -6,7 +6,7 @@ This project was created by Matt Asnes and Harrison Kaiser, for COMP-163: Comput
 
 # About The Project
 
-![Polygons](https://github.com/uwaces/DAGit/raw/master/img/ex.png)
+![Polygons](https://github.com/uwaces/DAGit/raw/master/img/wild.png)
 ![Initial Triangulation](https://github.com/uwaces/DAGit/raw/master/img/extri.png)
 ![After 1 Iteration](https://github.com/uwaces/DAGit/raw/master/img/test2.png)
 ![After 3 Iterations](https://github.com/uwaces/DAGit/raw/master/img/test3.png)
