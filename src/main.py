@@ -3,7 +3,6 @@ from kirkpatrick import poly
 from kirkpatrick import pl
 from kirkpatrick import simplices
 
-
 polygons = []
 
 for i in range(1, 8):
