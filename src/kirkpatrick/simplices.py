@@ -3,6 +3,16 @@
 # vertex was removed or not.
 
 class Vertex():
+    ALL_VERTICIES = dict()
+
+    def __new__(cls, *args):
+        if args in Point.ALL_POINTS:
+            obj = Point.ALL_POINTS[args]
+        else:
+            obj = super(Point, cls).__new__(cls)
+            Point.ALL_POINTS[args] = obj
+        return obj
+
     def __init__(self, x, y, hull_member=False):
         self.x = x
         self.y = y
