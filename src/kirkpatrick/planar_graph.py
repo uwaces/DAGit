@@ -1,6 +1,8 @@
 from kirkpatrick import simplices
 from kirkpatrick import triangulate
-
+import numpy as np
+import pylab as pl
+from matplotlib import collections  as mc
 
 class PlanarGraph:
     """
@@ -17,6 +19,25 @@ class PlanarGraph:
         self.adj = dict()
         self.all_triangles = set()  # list of triangles
         self.numVertices = 0
+
+    def make_fig(self, file_name):
+        points_x = [p.x for p in self.adj.keys()]
+        points_y = [p.y for p in self.adj.keys()]
+        lines = []
+        for p1, adj_list in adj_list.items():
+            for p2 in adj_list:
+                lines.append([(p1.x, p1.y), (p2.x, p2.y)])
+
+        lc = mc.LineCollection(lines, linewidths=2)
+
+        fig, ax = pl.subplots()
+        ax.axis("off")
+        ax.add_collection(lc)
+        ax.autoscale()
+        ax.margins(0.1)
+        ax.plot(points_x, points_y, 'ro')
+
+        fig.savefig(file_name)
 
     def addVertex(self, x, y, hull_member=False):
         v = simplices.Vertex(x, y, hull_member)
