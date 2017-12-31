@@ -25,7 +25,7 @@ print(hull)
 pg = planar.PlanarGraph()
 
 # Order matters so that vertex id's match
-vertex_ids_triangle = [pg.addVertex(p[0], p[1]) for p in hull]
+vertex_ids_triangle = [pg.addVertex(p[0], p[1], True) for p in hull]
 print("Vertex IDs of outer triangle: " + str(vertex_ids_triangle))
 
 vertex_ids = [pg.addVertex(p[0], p[1]) for p in polygon]
@@ -50,15 +50,24 @@ outer_triangles = triangulate.triangulate(pg, vertex_ids_triangle, vertex_ids)
 
 print("Outer Triangle ID's " + str(outer_triangles))
 
-triangle_list = triangles + outer_triangles
+#triangle_list = triangles + outer_triangles
 
 dag = DAG.DAG()
 
-while len(pg.find_indep_low_deg()):
-    print(triangle_list)
-    triangle_list = pg.removeVertices(pg.find_indep_low_deg(), dag, triangle_list)
+ind_set = pg.find_indep_low_deg()
+while len(ind_set) > 0:
+#    print(triangle_list)
+    old_tris, new_tris = pg.removeVertices(ind_set)
 
-print(triangle_list)
+    # Update DAG
+    for o in old_tris:
+        for n in new_tris:
+            if o.overlaps(n):
+                dag.addDirectedEdge(n, o)
+
+    ind_set = pg.find_indep_low_deg()
+
+#print(triangle_list)
 print(dag)
 
 # DAG BUILT: Next step query:
